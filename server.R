@@ -1,11 +1,11 @@
 server <- shinyServer(function(input, output, session) {
   
-  
-  
   shinyalert(title = 'App initialized!',
              text = '',
              type = 'success',
              closeOnClickOutside = TRUE)
+  
+  toggleModal(session = session, modalId = 'welcome', toggle = 'close')
   
   na.pts <- reactive({
     
@@ -14,7 +14,6 @@ server <- shinyServer(function(input, output, session) {
                          x = na.xy[,1],
                          y = na.xy[,2],
                          raw.pts[,2:8])
-    rm(raw.pts)
     rm(na.xy)
     gc()
 
