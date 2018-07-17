@@ -1,9 +1,21 @@
 ui <- fluidPage(
   useShinyalert(),
   sidebarLayout(
+    
     sidebarPanel(width=2,
+                 
+                 bsModal("welcome", "Window",
+                         title="Welcome!",size='small',
+                         'App may take a minute or more to initialize, please wait.',
+                         tags$script("$(document).ready(function(){
+                                     $('#welcome').modal();
+                                     });")
+                                ),
+                 
                  fluidRow(
                    img(src="./usgs.log.png", height=81, width=180),
+                   
+                   uiOutput("loading"),
                    
                    conditionalPanel("!output.loading", 
                                     HTML('<b><font color="red">App may take a minute or more to initialize, please wait.</font></b>')),
@@ -16,6 +28,7 @@ ui <- fluidPage(
                    conditionalPanel( condition = "input.boundSelect == 'poly'",             
                                      fileInput("boundFile2", 
                                                label = "Upload spatial polygon files (.shp, .shx, .prj, and .dbf) compressed into a .zip format:")),
+                   
                    
                    conditionalPanel(condition = "input.boundSelect == 'slider'",
                                     sliderInput("lat.range",
@@ -47,8 +60,8 @@ ui <- fluidPage(
                           tabPanel("Map", id="map", leafletOutput("leaf",width="100%", height = "700px") %>% withSpinner(size = 3)),
                           tabPanel("Climate Center Data", dataTableOutput("centerTable")),
                           tabPanel("Within-Assignment Distributions", id="box", plotOutput("boxPlot", height=2000) %>% withSpinner( size = 20)),
-                          tabPanel("Background and Use", id="background", textOutput('instruct'))
+                          tabPanel("Background and Use", id="background", includeText("instruct.txt"))
               ))
     
+    )
   )
-)
