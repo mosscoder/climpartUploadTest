@@ -1,9 +1,3 @@
-library(shiny)
-library(leaflet)
-library(shinycssloaders)
-library(shinyalert)
-library(shinyBS)
-
 ui <- fluidPage(
   useShinyalert(),
   sidebarLayout(
@@ -18,7 +12,7 @@ ui <- fluidPage(
                                   });")),
                  
                  fluidRow(
-                   img(src="./usgs.log.png", height=81, width=180),
+                   img(src="https://storage.googleapis.com/seedmapper_dat/usgs.log.png", height=81, width=180),
                    
                    uiOutput("loading"),
                    

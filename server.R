@@ -1,39 +1,11 @@
-library(rgdal)
-library(rgeos)
-library(raster)
-library(sp)
-library(rsconnect)
-library(shiny)
-library(RCurl)
-library(data.table)
-library(leaflet)
-library(feather)
-library(shinycssloaders)
-library(htmlwidgets)
-library(tidyverse)
-library(shinyalert)
-library(shinyBS)
-
-options(shiny.maxRequestSize=30*1024^2) 
-rasterOptions(maxmemory = 1e9)
-
-leaf.template <- raster(nrow=7235, ncol = 10801, 
-                        xmn=-15029059, xmx=-5009377, ymn=1688346, ymx=8399983, 
-                        resolution=c(927.6624, 927.6624), 
-                        crs="+init=epsg:3857")
-
-raw.pts <- read_feather("naFeatherMercator")
-
-temp.folder <- tempdir()
-
-shinyServer(function(input, output, session) {
+server <- shinyServer(function(input, output, session) {
+  
+  removeModal(session = getDefaultReactiveDomain())
   
   shinyalert(title = 'App initialized!',
              text = '',
              type = 'success',
              closeOnClickOutside = TRUE)
-  
-  if(!is.null(raw.pts)){toggleModal(session = session, modalId = 'welcome', toggle = 'close')}
   
   na.pts <- reactive({
     
