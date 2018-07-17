@@ -4,7 +4,7 @@ library(shinycssloaders)
 library(shinyalert)
 library(shinyBS)
 
-shinyUI(fluidPage(
+ui <- shinyUI(fluidPage(
   useShinyalert(),
   sidebarLayout(
     sidebarPanel(width=2,

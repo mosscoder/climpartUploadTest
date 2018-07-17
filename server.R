@@ -22,7 +22,7 @@ leaf.template <- raster(nrow=7235, ncol = 10801,
 
 temp.folder <- tempdir()
 
-shinyServer(function(input, output, session){
+server <- shinyServer(function(input, output, session){
   
   shinyalert(title = 'Welcome!',
              text = 'App may take a minute or more to initialize, please wait.',
