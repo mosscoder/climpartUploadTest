@@ -54,13 +54,13 @@ ui <- fluidPage(
                                 style = 'background-color: #008CBA; color: #fff;border-color: #ffffff; width: 190px'))), 
     
     mainPanel(width = 10,
-              bsModal("welcome", "Window",
+              if(is.null(raw.pts)){bsModal("welcome", "Window",
                       title="Welcome!",size='small', 
                       'App may take a minute or more to initialize, please wait.',
                       tags$script("$(document).ready(function(){
                                   $('#welcome').modal();
                                   });")
-                                ),
+                                )},
               tabsetPanel(id = "tabs",
                           tabPanel("Map", id="map", leafletOutput("leaf",width="100%", height = "700px") %>% withSpinner(size = 3)),
                           tabPanel("Climate Center Data", dataTableOutput("centerTable")),
