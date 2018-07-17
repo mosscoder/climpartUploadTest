@@ -1,6 +1,6 @@
 server <- shinyServer(function(input, output, session) {
   
-  removeModal(session = getDefaultReactiveDomain())
+  closeAlert(session, 'welcome')
   
   shinyalert(title = 'App initialized!',
              text = '',
