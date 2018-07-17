@@ -33,7 +33,7 @@ shinyServer(function(input, output, session) {
              type = 'success',
              closeOnClickOutside = TRUE)
   
-  toggleModal(session = session, modalId = 'welcome', toggle = 'close')
+  if(!is.null(raw.pts)){toggleModal(session = session, modalId = 'welcome', toggle = 'close')}
   
   na.pts <- reactive({
     
