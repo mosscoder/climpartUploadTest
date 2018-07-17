@@ -1,6 +1,6 @@
 server <- shinyServer(function(input, output, session) {
   
-  toggleModal(session, 'welcome', toggle = "close")
+  
   
   shinyalert(title = 'App initialized!',
              text = '',
