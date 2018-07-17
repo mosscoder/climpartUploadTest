@@ -16,6 +16,7 @@ server <- shinyServer(function(input, output, session) {
                text = '',
                type = 'success',
                closeOnClickOutside = TRUE)
+    toggleModal(session, 'welcome', toggle = "close")
     
     na.pts
   })
