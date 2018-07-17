@@ -11,7 +11,7 @@ ui <- fluidPage(
     sidebarPanel(width=2,
                  
                  bsModal("welcome", "Window",
-                         title="Welcome!",size='small',
+                         title="Welcome!",size='small', 
                          'App may take a minute or more to initialize, please wait.',
                          tags$script("$(document).ready(function(){
                                      $('#welcome').modal();
