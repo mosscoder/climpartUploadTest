@@ -1,4 +1,10 @@
-ui <- fluidPage(
+library(shiny)
+library(leaflet)
+library(shinycssloaders)
+library(shinyalert)
+library(shinyBS)
+
+shinyUI(fluidPage(
   useShinyalert(),
   sidebarLayout(
     sidebarPanel(width=2,
@@ -51,4 +57,4 @@ ui <- fluidPage(
               ))
     
   )
-)
+))
