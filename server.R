@@ -750,4 +750,33 @@ server <- function(input, output, session){
     ))
   })
   
-})
+  output$instruct <- renderText(
+    'The purpose of this app is to aid sampling efforts along climate gradients for a
+    geographic region of interest.  Examples of potential uses of this tool include:
+    sampling plant materials for common garden studies, establishing common garden
+    arrays, establishing vegetation transects, or banking seed for native plant
+    conservation. Analyses are conducted on the Bioclim
+    (http://www.worldclim.org/bioclim) dataset for the extent of 15 to 60 degrees
+    latitude and -135 to -45 degrees longitude. We chose to incorporate seven of these
+    variables that together capture unique axes of multivariate climate space, including:
+    mean annual temperature, diurnal range, temperature seasonality, temperature of
+    warmest quarter, mean annual precipitation, precipitation seasonality, and
+    precipitation of warmest quarter.
+    To operate the app, the user may input a lat/long bounding box with the supplied
+    slider bars or a spatial polygon. They then specify the number of partitions (as many as 50), click the
+    "Generate Partitions" button, and the app then uses cluster analysis to group the user-
+    defined climate space into the desired number of partitions. Within each partition
+    the app identifies the map cell that corresponds to the multivariate median, or
+    medoid, which we refer to as a climate center. After calculating these points, the app
+    then assigns each map cell to the climate center closest in climate space and maps
+    these assignments as regions of differing colors. Also reported are the
+    corresponding coordinates and Bioclim data for each of the climate centers, as well
+    as the distributions of their assignments.
+    The user can then download and explore the underlying rasters, climate center data,
+    and within-assignment distributions for offline use. To reproduce the aesthetics of the
+    mapping feature, set high values of the simval.tif as black and low values as white,
+    then overlay the center.assignment.tif, setting it to ~50% transparency, with values
+    as categorical, each value a contrasting color.'
+  )
+  
+}
