@@ -1,27 +1,3 @@
-library(rgdal)
-library(rgeos)
-library(raster)
-library(sp)
-library(rsconnect)
-library(shiny)
-library(RCurl)
-library(data.table)
-library(leaflet)
-library(feather)
-library(shinycssloaders)
-library(htmlwidgets)
-library(tidyverse)
-
-options(shiny.maxRequestSize=30*1024^2) 
-rasterOptions(maxmemory = 1e9)
-
-leaf.template <- raster(nrow=7235, ncol = 10801, 
-                        xmn=-15029059, xmx=-5009377, ymn=1688346, ymx=8399983, 
-                        resolution=c(927.6624, 927.6624), 
-                        crs="+init=epsg:3857")
-
-temp.folder <- tempdir()
-
 server <- function(input, output, session){
   
   shinyalert(title = 'Welcome!',

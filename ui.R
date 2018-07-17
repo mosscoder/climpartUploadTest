@@ -1,9 +1,3 @@
-library(shiny)
-library(leaflet)
-library(shinycssloaders)
-library(shinyalert)
-library(shinyBS)
-
 ui <- fluidPage(
   useShinyalert(),
   sidebarLayout(
