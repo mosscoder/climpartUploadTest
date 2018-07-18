@@ -7,7 +7,7 @@ server <- shinyServer(function(input, output, session) {
   
   na.pts <- reactive({
     
-    raw.pts <<- read_feather("naFeatherMercator")
+    raw.pts <- read_feather("naFeatherMercator")
     na.xy <- xyFromCell(leaf.template, raw.pts$cell)
     na.pts <- data.frame(cell = raw.pts$cell,
                          x = na.xy[,1],
