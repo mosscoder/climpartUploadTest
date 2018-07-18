@@ -61,7 +61,7 @@ ui <- fluidPage(
                           tabPanel("Climate Center Data", dataTableOutput("centerTable")),
                           tabPanel("Within-Assignment Distributions", id="box", plotOutput("boxPlot", height=2000) %>% withSpinner( size = 20)),
                           tabPanel("Background and Use", id="background", textOutput('instruct'))
-              ), textOutput('options'))
+              ))
     
     )
   )
