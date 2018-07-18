@@ -2,8 +2,6 @@ server <- shinyServer(function(input, output, session) {
   
   closeAlert(session, 'welcome')
   
- 
-  
   na.pts <- reactive({
     
     na.xy <- xyFromCell(leaf.template, raw.pts$cell)
@@ -12,7 +10,7 @@ server <- shinyServer(function(input, output, session) {
                          y = na.xy[,2],
                          raw.pts[,2:8])
     
-    if(!is.null(raw.pts)){
+    if(!is.null(na.pts)){
       shinyalert(title = 'App initialized!',
                                       text = '',
                                       type = 'success',
