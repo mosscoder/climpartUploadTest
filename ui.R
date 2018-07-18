@@ -4,12 +4,12 @@ ui <- fluidPage(
     
     sidebarPanel(width=2,
                  
-                 bsModal("welcome", "Window",
-                         title="Welcome!",size='small', 
-                         'App may take a minute or more to initialize, please wait.',
-                         tags$script("$(document).ready(function(){
-                                  $('#welcome').modal();
-                                  });")),
+                 # bsModal("welcome", "Window",
+                 #         title="Welcome!",size='small', 
+                 #         'App may take a minute or more to initialize, please wait.',
+                 #         tags$script("$(document).ready(function(){
+                 #                  $('#welcome').modal();
+                 #                  });")),
                  
                  fluidRow(
                    img(src="https://storage.googleapis.com/seedmapper_dat/usgs.log.png", height=81, width=180),
