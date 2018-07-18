@@ -767,5 +767,7 @@ server <- shinyServer(function(input, output, session) {
                                 then overlay the center.assignment.tif, setting it to ~50% transparency, with values 
                                 as categorical, each value a contrasting color.')
   
+  output$options <- renderText(print(rasterOptions))
+  
   
   })
