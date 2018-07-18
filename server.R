@@ -2,11 +2,8 @@ server <- shinyServer(function(input, output, session) {
   
   closeAlert(session, 'welcome')
   
-  if(!is.null(raw.pts)) {shinyalert(title = 'App initialized!',
-             text = '',
-             type = 'success',
-             closeOnClickOutside = TRUE)
-  }
+ 
+  
   na.pts <- reactive({
     
     na.xy <- xyFromCell(leaf.template, raw.pts$cell)
@@ -14,6 +11,15 @@ server <- shinyServer(function(input, output, session) {
                          x = na.xy[,1],
                          y = na.xy[,2],
                          raw.pts[,2:8])
+    
+    if(!is.null(raw.pts)){
+      shinyalert(title = 'App initialized!',
+                                      text = '',
+                                      type = 'success',
+                                      closeOnClickOutside = TRUE)
+      }
+    
+    
     rm(na.xy)
     gc()
 
