@@ -37,13 +37,7 @@ server <- shinyServer(function(input, output, session) {
     }
   })
   
-  counter <- reactiveValues(countervalue = 0) # Defining & initializing the reactiveValues object
-  
-  observeEvent(input$goButton, {
-    counter$countervalue <- counter$countervalue + 1 
-  })
-  
-  unscale <- reactive({
+  unscaled <- reactive({
     
     progress <- shiny::Progress$new()
     on.exit(progress$close())
@@ -72,9 +66,7 @@ server <- shinyServer(function(input, output, session) {
       
       cropped.stack <- box.crop
       
-      #cropped.stack <- data.frame(box.crop[,1:3],scale(box.crop[,4:10]))
-      
-      if(nrow(cropped.stack) < 5){
+      if(nrow(cropped.stack) < input$cluster.num){
         shinyalert(title = 'Invalid region of interest!',
                    text = 'Please select regions containing land masses 
                    within the bounds of -135 to -45 degrees longitude and 15 to 60 degrees latitude. ',
@@ -99,10 +91,8 @@ server <- shinyServer(function(input, output, session) {
       poly.cell <- data.frame(cellFromPolygon(leaf.template, poly.trans))
       
       cropped.stack <- na.pts() %>% filter(cell %in% poly.cell[,1])
-      #poly.crop <- na.pts() %>% filter(cell %in% poly.cell[,1])
-      #cropped.stack <- data.frame(poly.crop[,1:3],scale(poly.crop[,4:10]))
       
-      if(nrow(cropped.stack) < 5){
+      if(nrow(cropped.stack) < input$cluster.num){
         shinyalert(title = 'Invalid region of interest!',
                    text = 'Please select regions containing land masses 
                    within the bounds of -135 to -45 degrees longitude and 15 to 60 degrees latitude. ',
@@ -114,7 +104,7 @@ server <- shinyServer(function(input, output, session) {
     colnames(cropped.stack) <- colnames(na.pts())
     cropped.stack
     
-    }) #verified good
+    }) 
   
   map.crop <- reactive({
     
@@ -128,7 +118,7 @@ server <- shinyServer(function(input, output, session) {
     on.exit(progress$close())
     progress$set(message = "Scaling climate data", value = 0.25)
     
-    unsc <- unscale()
+    unsc <- unscaled()
     
     cropped.stack <- data.frame(unsc[,1:3],scale(unsc[,4:10]))
     
@@ -176,11 +166,9 @@ server <- shinyServer(function(input, output, session) {
       return(max.dists)
     }
     
-    
-    
     extent.max <- while.maxxer()
     extent.max
-  }) #verified good
+  }) 
   
   medoids <- reactive({
     set.seed(123)
@@ -252,7 +240,7 @@ server <- shinyServer(function(input, output, session) {
     best.medoids <- subset(best.medoids, rep == rep.screen)
     best.medoids <- best.medoids[order(best.medoids$cell),]
     best.medoids
-  }) #verified good
+  }) 
   
   medprint <- reactive({
     
@@ -270,7 +258,7 @@ server <- shinyServer(function(input, output, session) {
     extent.max <- isolate(max.find())
     best.medoids <- isolate(medoids())
     
-    medoid.print <- data.frame(paste("Center", 1:nrow(best.medoids)),subset(unscale(), cell %in% best.medoids$cell))
+    medoid.print <- data.frame(paste("Center", 1:nrow(best.medoids)),subset(unscaled(), cell %in% best.medoids$cell))
     colnames(medoid.print)[1] <- "Climate Center"
     medoid.print$MAT <- medoid.print$MAT/10
     medoid.print$DiurnalRange <- medoid.print$DiurnalRange/10
@@ -284,7 +272,7 @@ server <- shinyServer(function(input, output, session) {
     medoid.print$y <- medoid.xy[,2]
     
     medoid.print
-  }) #verified good
+  }) 
   
   sim.calcs <- reactive({
     
@@ -305,7 +293,7 @@ server <- shinyServer(function(input, output, session) {
     medoid.print <- isolate(medprint())
     
     maps.clust.fun <- function(clim.vals){
-      col.dat <- clim.vals # defining our data frame of accessions 
+      col.dat <- clim.vals 
       
       clim.dist.df <- function(col){  #Euclidean distance function
         
@@ -357,7 +345,7 @@ server <- shinyServer(function(input, output, session) {
     }
     
     center <- subset(map.vals, cell == map.cell, select=c("accession","clim.sim"))
-    vals <- subset(unscale(), cell == map.cell, select=c("MAT","DiurnalRange","TSeasonality",
+    vals <- subset(unscaled(), cell == map.cell, select=c("MAT","DiurnalRange","TSeasonality",
                                                          "TWettestQtr","MAP","PSeasonality","PWarmestQtr"))
     
     if(nrow(center) > 0){
@@ -391,9 +379,9 @@ server <- shinyServer(function(input, output, session) {
     
     
     sub.vals <- withProgress(message="Extracting data for center assignments", value=0.91, 
-                             filter(unscale(), cell %in% map.vals$cell))
+                             filter(unscaled(), cell %in% map.vals$cell))
     forPlot <- cbind(map.vals$accession,sub.vals[,4:10])
-    colnames(forPlot) <- c("accession", colnames(unscale()[,4:10]))
+    colnames(forPlot) <- c("accession", colnames(unscaled()[,4:10]))
     forPlot$MAT <- forPlot$MAT/10
     forPlot$DiurnalRange <- forPlot$DiurnalRange/10
     forPlot$TWettestQtr <- forPlot$TWettestQtr/10
