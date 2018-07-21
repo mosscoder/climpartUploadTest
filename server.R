@@ -199,6 +199,14 @@ server <- shinyServer(function(input, output, session) {
     
     cropped.stack <- data.frame(unsc[,1:3],scale(unsc[,4:10]))
     
+    if(input$wtMAT !=1){cropped.stack$MAT <- cropped.stack$MAT*input$wMAT}
+    if(input$wtDiurnal !=1){cropped.stack$DiurnalRange <- cropped.stack$DiurnalRange*input$wtDiurnal}
+    if(input$wtTSeason !=1){cropped.stack$TSeasonality <- cropped.stack$TSeasonality*input$wtTSeason}
+    if(input$wtTWet !=1){cropped.stack$TWettestQtr <- cropped.stack$TWettestQtr*input$wtTWet}
+    if(input$wtMAP !=1){cropped.stack$MAP <- cropped.stack$MAP*input$wtMAP}
+    if(input$wtPSeason !=1){cropped.stack$PSeasonality <- cropped.stack$PSeasonality*input$wtPSeason}
+    if(input$wtPWarm !=1){cropped.stack$PWarmestQtr <- cropped.stack$PWarmestQtr*input$wtPWarm}
+    cropped.stack
   })
   
   max.find <- eventReactive(input$goButton,{

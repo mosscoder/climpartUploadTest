@@ -28,9 +28,30 @@ ui <- fluidPage(
                                                 label = "Longitude Extent", 
                                                 min =-168, max = -52, step = 0.1,
                                                 value=c(-115,-105))),
-                   
-                   sliderInput("cluster.num", label = "Number of climate paritions:", 
-                               ticks = F, value=5, min = 1, max = 50, step = 1),
+                   HTML("<b>Number of climate partitions:</b>"),
+                   fluidRow(column(8, 
+                                   sliderInput("cluster.num", label = NULL, 
+                                               ticks = F, value=5, min = 1, max = 50, step = 1)),
+                            column(4,
+                                   HTML(paste0('<button data-toggle="collapse" class="btn btn-default" data-target="#demo"><img src="https://github.com/mosscoder/climpartUploadTest/blob/master/scale.jpg?raw=true" height = 20, width 20/></button>'))
+                                   )
+                            ),
+                   tags$div(id = 'demo',  class="collapse out",
+                            sliderInput("wtMAT", label = "Mean Annual Temperature", 
+                                        ticks = F, value=1, min = 0, max = 1, step = .01),
+                            sliderInput("wtDiurnal", label = "Diurnal Range", 
+                                        ticks = F, value=1, min = 0, max = 1, step = .01),
+                            sliderInput("wtTSeason", label = "Temperature Seasonality", 
+                                        ticks = F, value=1, min = 0, max = 1, step = .01),
+                            sliderInput("wtTWet", label = "Temperature Wettest Qtr.",
+                                        ticks = F, value=1, min = 0, max = 1, step = .01),
+                            sliderInput("wtMAP", label = "Mean Annual Precipitation",
+                                        ticks = F, value=1, min = 0, max = 1, step = .01),
+                            sliderInput("wtPSeason", label = "Precipitation Seasonality",
+                                        ticks = F, value=1, min = 0, max = 1, step = .01),
+                            sliderInput("wtPWarm", label = "Precipitation Warmest Qtr.",
+                                        ticks = F, value=1, min = 0, max = 1, step = .01)        
+                   ),
                    
                    actionButton("goButton", label=HTML("<b>Generate Partitions</b>"), 
                                 style = "background-color: #18B66A; color: #fff; border-color: #ffffff; width: 190px"),
@@ -50,7 +71,7 @@ ui <- fluidPage(
                           tabPanel("Within-Assignment Distributions", id="box", plotOutput("boxPlot", height=2000) %>% withSpinner( size = 20)),
                           tabPanel("Background and Use", id="background", textOutput('instruct')),
                           tabPanel("Run Offline", id="offline",
-                                   tags$iframe(src='https://storage.googleapis.com/seedmapper_dat/offlineInstructions.html',
+                                   tags$iframe(src='https://cdn.rawgit.com/mosscoder/climpart/master/offlineInstructions.html',
                                                width = "100%", height = "1000px", style="border:0"))
               ))
     
