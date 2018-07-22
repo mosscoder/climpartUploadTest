@@ -4,8 +4,9 @@ server <- shinyServer(function(input, output, session) {
                           For a detailed explanation of the underlying analyses, see
                          <a href="https://esajournals.onlinelibrary.wiley.com/doi/abs/10.1002/eap.1505">Doherty et al. (2017)</a><br><br>
                          If you want to process a very large extent, it is best to run the app offline.<br>
-                         <a href="https://storage.googleapis.com/seedmapper_dat/offlineInstructions.html">
-                         Click here for more information!</a>'),
+                         <a href="https://cdn.rawgit.com/mosscoder/climpart/master/offlineInstructions.html">
+                         Click here for more information!</a>'
+                         ),
              type = 'success',
              closeOnClickOutside = TRUE,
              html = T)
@@ -68,6 +69,8 @@ server <- shinyServer(function(input, output, session) {
                                 then overlay the center.assignment.tif, setting it to ~50% transparency, with values 
                                 as categorical, each value a contrasting color.')
   
+  output$inc<-renderUI({includeHTML("https://raw.githubusercontent.com/mosscoder/climpart/master/offlineInstructions.html")})
+  
   output$leaf <- renderLeaflet({
     leaflet() %>%
       setView(lat = 50, lng = -100, zoom = 3) %>%
@@ -110,6 +113,7 @@ server <- shinyServer(function(input, output, session) {
       writeOGR(polyDF, temp.folder, "userPoly", driver="ESRI Shapefile", overwrite_layer = T)
       
       withProgress(message = "Rendering user polygon",
+                   value = 0.75,
                    leafletProxy('leaf') %>%
                      clearShapes() %>%
                      addPolygons(data = poly4map,
@@ -149,7 +153,6 @@ server <- shinyServer(function(input, output, session) {
                cutline = shpLoc,
                rasLoc,
                'clipped.tif')
-      
     }
     
     if(input$boundSelect == "poly"){ #extent set by poly
@@ -188,8 +191,9 @@ server <- shinyServer(function(input, output, session) {
     
     if(nrow(roiDF) < input$cluster.num){
       shinyalert(title = 'Invalid region of interest!',
-                 text = 'Selection contains insufficient land area. Limit selection to land masses
-                 within the bounds of -168 to -52 degrees longitude and 7 to 83 degrees latitude. ',
+                 text = HTML('Selection contains insufficient land area. Limit selection to land masses
+                 within the bounds of -168 to -52 degrees longitude and 7 to 83 degrees latitude.'),
+                 html = T,
                  type = 'error')
     }
     roiDF
@@ -215,6 +219,7 @@ server <- shinyServer(function(input, output, session) {
       mutate(PSeasonality= croppedStack$PSeasonality*input$wtPSeason) %>%
       mutate(PWarmestQtr= croppedStack$PWarmestQtr*input$wtPWarm) %>%
       as.data.frame()
+    
   })
   
   max.find <- eventReactive(input$goButton,{
@@ -710,6 +715,10 @@ server <- shinyServer(function(input, output, session) {
   output$centerTable <- renderDataTable({
     raw <- medprint() %>% dplyr::select(-cell) %>% dplyr::rename(Latitude = y, Longitude = x)
     raw
+  })
+  
+  observeEvent(input$goButton, {
+    file.remove('clipped.tif')
   })
   
   output$downloadData <- downloadHandler(
