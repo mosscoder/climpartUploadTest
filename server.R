@@ -46,11 +46,11 @@ server <- shinyServer(function(input, output, session) {
                                 sampling plant materials for common garden studies, establishing common garden 
                                 arrays, establishing vegetation transects, or banking seed for native plant 
                                 conservation. Analyses are conducted on the Bioclim 
-                                (http://www.worldclim.org/bioclim) dataset for the extent of 15 to 60 degrees 
-                                latitude and -135 to -45 degrees longitude. We chose to incorporate seven of these 
+                                (http://www.worldclim.org/bioclim) dataset for the extent of North America (-168 to 83 degrees longitude and
+                                7 to 83 degrees latitude). We chose to incorporate seven of these 
                                 variables that together capture unique axes of multivariate climate space, including: 
                                 mean annual temperature, diurnal range, temperature seasonality, temperature of 
-                                warmest quarter, mean annual precipitation, precipitation seasonality, and 
+                                wettest quarter, mean annual precipitation, precipitation seasonality, and 
                                 precipitation of warmest quarter. 
                                 To operate the app, the user may input a lat/long bounding box with the supplied 
                                 slider bars or a spatial polygon. They then specify the number of partitions (as many as 50), click the 
@@ -210,16 +210,6 @@ server <- shinyServer(function(input, output, session) {
       mutate(PSeasonality= croppedStack$PSeasonality*input$wtPSeason) %>%
       mutate(PWarmestQtr= croppedStack$PWarmestQtr*input$wtPWarm) %>%
       as.data.frame()
-    
-      # if(input$wtMAT !=1){ cropped.stack$MAT <- cropped.stack$MAT*input$wMAT }
-      # if(input$wtDiurnal !=1){cropped.stack$DiurnalRange <- cropped.stack$DiurnalRange*input$wtDiurnal}
-      # if(input$wtTSeason !=1){cropped.stack$TSeasonality <- cropped.stack$TSeasonality*input$wtTSeason}
-      # if(input$wtTWet !=1){cropped.stack$TWettestQtr <- cropped.stack$TWettestQtr*input$wtTWet}
-      # if(input$wtMAP !=1){cropped.stack$MAP <- cropped.stack$MAP*input$wtMAP}
-      # if(input$wtPSeason !=1){cropped.stack$PSeasonality <- cropped.stack$PSeasonality*input$wtPSeason}
-      # if(input$wtPWarm !=1){cropped.stack$PWarmestQtr <- cropped.stack$PWarmestQtr*input$wtPWarm}
-    
-    # croppedStack
   })
   
   # map.crop <- eventReactive(input$goButton,{
