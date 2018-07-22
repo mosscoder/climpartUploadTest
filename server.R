@@ -46,7 +46,7 @@ server <- shinyServer(function(input, output, session) {
                                 sampling plant materials for common garden studies, establishing common garden 
                                 arrays, establishing vegetation transects, or banking seed for native plant 
                                 conservation. Analyses are conducted on the Bioclim 
-                                (http://www.worldclim.org/bioclim) dataset for the extent of North America (-168 to 83 degrees longitude and
+                                (http://www.worldclim.org/bioclim) dataset for the extent of North America (-168 to -52 degrees longitude and
                                 7 to 83 degrees latitude). We chose to incorporate seven of these 
                                 variables that together capture unique axes of multivariate climate space, including: 
                                 mean annual temperature, diurnal range, temperature seasonality, temperature of 
