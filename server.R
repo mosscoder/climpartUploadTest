@@ -88,6 +88,10 @@ server <- shinyServer(function(input, output, session) {
     }
     
     if(!is.null(input$boundFile2) & input$boundSelect == "poly"){
+      progress <- shiny::Progress$new()
+      on.exit(progress$close())
+      progress$set(message = "Processing user polygon", value = 0.5)
+      
       file.remove(paste0(temp.folder,'/userPoly.shp'))
       inFile <- input$boundFile2
       unzip(zipfile = inFile$datapath, exdir = temp.folder) #specify user poly here
@@ -105,11 +109,13 @@ server <- shinyServer(function(input, output, session) {
       temp.folder <- tempdir()
       writeOGR(polyDF, temp.folder, "userPoly", driver="ESRI Shapefile", overwrite_layer = T)
       
-      leafletProxy('leaf') %>%
-        clearShapes() %>%
-        addPolygons(data = poly4map,
-                    weight = 2, 
-                    color = '#317873')
+      withProgress(message = "Rendering user polygon",
+                   leafletProxy('leaf') %>%
+                     clearShapes() %>%
+                     addPolygons(data = poly4map,
+                                 weight = 2, 
+                                 color = '#317873')
+      )
     }
   })
   
@@ -200,7 +206,6 @@ server <- shinyServer(function(input, output, session) {
     croppedStack <- data.frame(unsc[,1:3],scale(unsc[,4:10]))
     colnames(croppedStack) <- colnames(unsc)
     
-    
     croppedStack %>%
       mutate(MAT = croppedStack$MAT*input$wtMAT) %>%
       mutate(DiurnalRange =  croppedStack$DiurnalRange*input$wtDiurnal) %>%
@@ -211,25 +216,6 @@ server <- shinyServer(function(input, output, session) {
       mutate(PWarmestQtr= croppedStack$PWarmestQtr*input$wtPWarm) %>%
       as.data.frame()
   })
-  
-  # map.crop <- eventReactive(input$goButton,{
-  #   progress <- shiny::Progress$new()
-  #   on.exit(progress$close())
-  #   progress$set(message = "Scaling data", value = 0.275)
-  #   
-  #   cropped.stack <- beforeWt()
-  #   
-  #   if(input$wtMAT !=1){ cropped.stack$MAT <- cropped.stack$MAT*input$wMAT }
-  #   if(input$wtDiurnal !=1){cropped.stack$DiurnalRange <- cropped.stack$DiurnalRange*input$wtDiurnal}
-  #   if(input$wtTSeason !=1){cropped.stack$TSeasonality <- cropped.stack$TSeasonality*input$wtTSeason}
-  #   if(input$wtTWet !=1){cropped.stack$TWettestQtr <- cropped.stack$TWettestQtr*input$wtTWet}
-  #   if(input$wtMAP !=1){cropped.stack$MAP <- cropped.stack$MAP*input$wtMAP}
-  #   if(input$wtPSeason !=1){cropped.stack$PSeasonality <- cropped.stack$PSeasonality*input$wtPSeason}
-  #   if(input$wtPWarm !=1){cropped.stack$PWarmestQtr <- cropped.stack$PWarmestQtr*input$wtPWarm}
-  #   
-  #   cropped.stack
-  #   
-  # })
   
   max.find <- eventReactive(input$goButton,{
     
