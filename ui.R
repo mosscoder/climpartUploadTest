@@ -28,14 +28,12 @@ ui <- fluidPage(
                                                 label = "Longitude Extent", 
                                                 min =-168, max = -52, step = 0.1,
                                                 value=c(-115,-105))),
-                   HTML("<b>Number of climate partitions:</b>"),
-                   fluidRow(column(8, 
-                                   sliderInput("cluster.num", label = NULL, 
-                                               ticks = F, value=5, min = 1, max = 50, step = 1)),
-                            column(4,
-                                   HTML(paste0('<button data-toggle="collapse" class="btn btn-default" data-target="#demo"><img src="https://github.com/mosscoder/climpartUploadTest/blob/master/scale.jpg?raw=true" height = 20, width 20/></button>'))
-                                   )
-                            ),
+
+                                   sliderInput("cluster.num", label = "Number of climate partitions:", 
+                                               ticks = F, value=5, min = 1, max = 50, step = 1),
+                         HTML(paste0('<button data-toggle="collapse" class="btn btn-default" id="wtButton" data-target="#demo"><span>Weight Variables</span><img src="https://github.com/mosscoder/climpartUploadTest/blob/master/scale.png?raw=true" height = 20, width 20/></button>')),
+                   tags$style(type = "text/css", "#wtButton {width: 190px; display: inline-block; padding: 5px;}"),
+
                    tags$div(id = 'demo',  class="collapse out",
                             sliderInput("wtMAT", label = "Mean Annual Temperature", 
                                         ticks = F, value=1, min = 0, max = 1, step = .01),
