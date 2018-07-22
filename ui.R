@@ -29,10 +29,11 @@ ui <- fluidPage(
                                                 min =-168, max = -52, step = 0.1,
                                                 value=c(-115,-105))),
 
-                                   sliderInput("cluster.num", label = "Number of climate partitions:", 
-                                               ticks = F, value=5, min = 1, max = 50, step = 1),
-                         HTML(paste0('<button data-toggle="collapse" class="btn btn-default" id="wtButton" data-target="#demo"><span>Weight Variables</span><img src="https://github.com/mosscoder/climpartUploadTest/blob/master/scale.png?raw=true" height = 20, width 20/></button>')),
-                   tags$style(type = "text/css", "#wtButton {width: 190px; display: inline-block; padding: 5px;}"),
+                   sliderInput("cluster.num", label = "Number of climate partitions:", 
+                               ticks = F, value=5, min = 1, max = 50, step = 1),
+                   HTML(paste0('<button data-toggle="collapse" class="btn btn-default" id="wtButton" 
+                               data-target="#demo"><img src="https://github.com/mosscoder/climpartUploadTest/blob/master/scale.png?raw=true" height = 20, width 20/><span>Weight Variables</span></button>')),
+                   tags$style(type = "text/css", "#wtButton {width: 200px; display: inline-block; padding: 5px;}"),
 
                    tags$div(id = 'demo',  class="collapse out",
                             sliderInput("wtMAT", label = "Mean Annual Temperature", 
@@ -51,15 +52,18 @@ ui <- fluidPage(
                                         ticks = F, value=1, min = 0, max = 1, step = .01)        
                    ),
                    
-                   actionButton("goButton", label=HTML("<b>Generate Partitions</b>"), 
-                                style = "background-color: #18B66A; color: #fff; border-color: #ffffff; width: 190px"),
-                   
-                   downloadButton('downloadData', 'Download Data', style = ' width: 190px;'),
+                   # actionButton("goButton", class = "goButton", label=HTML("<b>Generate Partitions</b>"), 
+                   #              style = "background-color: #18B66A; color: #fff; border-color: #ffffff; width: 200px"),
+                  
+                   actionBttn("goButton", label=HTML("<b>Generate Partitions</b>"),
+                                style = "simple", color = "success", size = 'sm', block = T),
+
+                   downloadButton('downloadData', 'Download Data', style = ' width: 200px;'),
                    
                    helpText("Click above to download underlying rasters and summary data. Note that clicking will open a new tab."),
                    
-                   actionButton('moreInfo', label = HTML("<b>Contact Info & Disclaimer</b>"),
-                                style = 'background-color: #008CBA; color: #fff;border-color: #ffffff; width: 190px'))), 
+                   actionBttn('moreInfo', label = HTML("<font size=2.75><b>Contact Info & Disclaimer</b><font>"),
+                                color = 'primary', style = 'simple', size = 'sm', block = T))), 
     
     mainPanel(width = 10,
           
